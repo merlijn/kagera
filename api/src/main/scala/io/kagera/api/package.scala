@@ -49,10 +49,9 @@ package object api {
 
   type BiPartiteGraph[P, T, E[+X] <: EdgeLikeIn[X]] = Graph[Either[P, T], E]
 
-  /**
-   * TODO; can we remove this wrapper? It seems only needed because we need to mix in other traits with PetriNet
-   * which cannot be done with Graph.apply
-   */
+  /** TODO; can we remove this wrapper? It seems only needed because we need to mix in other traits with PetriNet
+    * which cannot be done with Graph.apply
+    */
   class ScalaGraphPetriNet[P, T](val innerGraph: BiPartiteGraph[P, T, WLDiEdge]) extends PetriNet[P, T] {
 
     override def inMarking(t: T): MultiSet[P] = innerGraph.inMarking(t)
@@ -66,6 +65,8 @@ package object api {
     override lazy val transitions = innerGraph.transitions().toSet
 
     override def nodes = innerGraph.nodes.map(_.value)
+
+    override def toString: String = s"Petri Net with inner graph:\n$innerGraph"
   }
 
   implicit def placeToNode[P, T](p: P): Either[P, T] = Left(p)

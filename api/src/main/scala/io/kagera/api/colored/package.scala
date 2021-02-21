@@ -34,7 +34,7 @@ package object colored {
    * @tparam Output The output emitted by the transition.
    * @tparam State  The state the transition closes over.
    */
-  type TransitionFunction[F[_], Input, Output, State] = (Marking, State, Input) => F[(Marking, Output)]
+  type TransitionFunction[F[_], -Input, Output, State] = (Marking, State, Input) => F[(Marking, Output)]
 
   /**
    * An exception handler function associated with a transition.
