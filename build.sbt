@@ -20,14 +20,14 @@ lazy val defaultProjectSettings =
     scalaVersion := crossScalaVersions.value.head,
     githubOwner := "xencura",
     githubRepository := "kagera",
-    githubTokenSource := TokenSource.GitConfig("github.token"),
+    githubTokenSource := TokenSource.GitConfig("github.token") || TokenSource.Environment("GITHUB_TOKEN"),
     scalacOptions := commonScalacOptions
   )
 
-githubTokenSource := TokenSource.GitConfig("github.token")
+githubTokenSource := TokenSource.GitConfig("github.token") || TokenSource.Environment("GITHUB_TOKEN")
 
 lazy val api = crossProject(JSPlatform, JVMPlatform)
-  //.withoutSuffixFor(JVMPlatform)
+  .withoutSuffixFor(JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("api"))
   .settings(defaultProjectSettings: _*)
